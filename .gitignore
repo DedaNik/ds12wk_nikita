@@ -6,3 +6,5 @@
 *.pyc
 .env
 .DS_Store
+catboost_info/
+*.json
