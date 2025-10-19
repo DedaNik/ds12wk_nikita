@@ -13,3 +13,10 @@
 1. Откройте notebooks/01_eda_adult.ipynb в Google Colab
 2. Выполните ячейки — модель сохранится в /models
 3. Готовый ABT: /data/processed/abt_sample.cs
+
+## Топ-3 признака по важности модели CatBoost:
+
+1. capital.gain — люди с дополнительным доходом от капитала чаще имеют высокий доход (>50K)
+2. marital.status_Married-civ-spouse — женатые/замужние чаще относятся к категории высокого дохода
+3. age — старшие по возрасту люди чаще имеют доход выше 50K
+Важность признаков рассчитана с помощью get_feature_importance() в CatBoost.
