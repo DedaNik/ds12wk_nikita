@@ -10,7 +10,6 @@
 - `models/` — сохранённые модели (не хранить в git)
 
 ## Инструкции запуска в Google Colab
-1. Открой [Google Colab](https://colab.research.google.com)
-2. Выбери **File → Open notebook → GitHub**
-3. Вставь ссылку: `https://github.com/USERNAME/ds12wk_nikita`  
-   и открой нужный ноутбук из папки `notebooks/`
+1. Откройте notebooks/01_eda_adult.ipynb в Google Colab
+2. Выполните ячейки — модель сохранится в /models
+3. Готовый ABT: /data/processed/abt_sample.cs
