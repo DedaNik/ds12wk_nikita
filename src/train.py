@@ -38,9 +38,10 @@ def train_catboost(X,y):
     'Fold': list(range(1, 6)),
     'AUC': auc_scores
   })
-
-  results = results.append({'Fold':'Mean','AUC':np.mean(auc_scores)}, ignore_index=True)
-
+  
+  mean_row = pd.DataFrame([{'Fold':'Mean', 'AUC': np.mean(auc_scores)}])
+  results = pd.concat([results, mean_row], ignore_index=True)
+  
   print(results)
     
   return clf
