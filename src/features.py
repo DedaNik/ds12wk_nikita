@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold
 
-def  target_encode_oof(df:pd.DataFrame,col_cat,target,n_splits):
+def target_encode_oof(df:pd.DataFrame,col_cat,target,n_splits):
 
   kf = KFold(n_splits = n_splits, shuffle=True, random_state=42)
 
@@ -30,3 +30,14 @@ def  target_encode_oof(df:pd.DataFrame,col_cat,target,n_splits):
     df.loc[train_labels, col] = train_enc.values
     df.loc[val_labels, col] = val_enc.values
   return df
+
+def add_age_hours(df):
+  df['age_hours'] = df['age'] * df['hours-per-week']
+  return df
+
+def frequency_encoding(df,col):
+  freq = df[col].value_counts()/len(df)
+  df[col + "_freq"] = df[col].map(freq)
+  return df
+
+
