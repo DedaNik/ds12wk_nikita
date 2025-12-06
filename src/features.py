@@ -31,8 +31,8 @@ def target_encode_oof(df:pd.DataFrame,col_cat,target,n_splits):
     df.loc[val_labels, col] = val_enc.values
   return df
 
-def add_age_hours(df):
-  df['age_hours'] = df['age'] * df['hours-per-week']
+def add_age_hours(df,col1,col2):
+  df[col1 + "_" + col2] = df[col1] * df[col2]
   return df
 
 def frequency_encoding(df,col):
