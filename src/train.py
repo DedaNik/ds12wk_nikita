@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 import mlflow
+import mlflow.catboost
 
 def data_separation(EDA: pd.DataFrame,y_name: str):
   X = EDA.drop(columns=[y_name],axis=1)
@@ -16,6 +17,9 @@ def train_catboost(X,y):
   
   skf = StratifiedKFold(n_splits=5, shuffle = True, random_state=42)
   auc_scores = []
+
+  mlflow.set_tracking_uri("file:///content/mlruns")
+  mlflow.set_experiment("catboost_model")
   
   for fold, (train_idx, val_idx) in enumerate(skf.split(X,y),1):
 
@@ -25,9 +29,9 @@ def train_catboost(X,y):
     with mlflow.start_run(run_name=f"fold_{fold}"):
              
       # 1️⃣ Параметры модели
-      params = {"iterations": 1000, "learning_rate": 0.1, "random_state": 42}   
-      for k, v in params.items():
-        mlflow.log_param(k, v)
+    params = {"iterations": 1000, "learning_rate": 0.1, "random_state": 42}   
+    for k, v in params.items():
+      mlflow.log_param(k, v)
 
     clf = CatBoostClassifier(**params, verbose=100)
     
@@ -37,7 +41,7 @@ def train_catboost(X,y):
     auc = roc_auc_score(y_test, y_pred_proba)
     
     mlflow.log_metric("AUC", auc)
-    mlflow.catboost.log_model(clf, artifact_path="catboost_model")
+    mlflow.catboost.log_model(clf, name="catboost_model")
     
     print(f"Fold {fold} AUC: {auc:.4f}")
     auc_scores.append(auc)
