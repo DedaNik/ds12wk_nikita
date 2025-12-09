@@ -5,6 +5,7 @@ from catboost import CatBoostClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
+import mlflow
 
 def data_separation(EDA: pd.DataFrame,y_name: str):
   X = EDA.drop(columns=[y_name],axis=1)
