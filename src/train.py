@@ -33,19 +33,19 @@ def train_catboost(X,y):
       for k, v in params.items():
         mlflow.log_param(k, v)
 
-    clf = CatBoostClassifier(**params, verbose=100)
+      clf = CatBoostClassifier(**params, verbose=100)
     
-    clf.fit(X_train, y_train)
-    y_pred_proba = clf.predict_proba(X_test)[:, 1]
+      clf.fit(X_train, y_train)
+      y_pred_proba = clf.predict_proba(X_test)[:, 1]
     
-    auc = roc_auc_score(y_test, y_pred_proba)
+      auc = roc_auc_score(y_test, y_pred_proba)
     
-    mlflow.log_metric("AUC", auc)
-    mlflow.catboost.log_model(clf, name="catboost_model")
+      mlflow.log_metric("AUC", auc)
+      mlflow.catboost.log_model(clf, name="catboost_model")
     
-    print(f"Fold {fold} AUC: {auc:.4f}")
-    auc_scores.append(auc)
-    clf.save_model(f'models/catboost_fold{fold}.cbm')
+      print(f"Fold {fold} AUC: {auc:.4f}")
+      auc_scores.append(auc)
+      clf.save_model(f'models/catboost_fold{fold}.cbm')
 
   results = pd.DataFrame({
     'Fold': list(range(1, 6)),
