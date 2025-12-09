@@ -20,16 +20,24 @@ def train_catboost(X,y):
 
     X_train, X_test = X.iloc[train_idx] , X.iloc[val_idx]
     y_train, y_test = y.iloc[train_idx] , y.iloc[val_idx]
+        
+    with mlflow.start_run(run_name=f"fold_{fold}"):
+             
+      # 1️⃣ Параметры модели
+      params = {"iterations": 1000, "learning_rate": 0.1, "random_state": 42}   
+      for k, v in params.items():
+        mlflow.log_param(k, v)
 
-    clf = CatBoostClassifier(
-     verbose=100,   # выводит прогресс каждые 100 итераций
-    random_state=42
-    )
+    clf = CatBoostClassifier(**params, verbose=100)
     
     clf.fit(X_train, y_train)
     y_pred_proba = clf.predict_proba(X_test)[:, 1]
     
     auc = roc_auc_score(y_test, y_pred_proba)
+    
+    mlflow.log_metric("AUC", auc)
+    mlflow.catboost.log_model(clf, artifact_path="catboost_model")
+    
     print(f"Fold {fold} AUC: {auc:.4f}")
     auc_scores.append(auc)
     clf.save_model(f'models/catboost_fold{fold}.cbm')
