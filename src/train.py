@@ -29,9 +29,9 @@ def train_catboost(X,y):
     with mlflow.start_run(run_name=f"fold_{fold}"):
              
       # 1️⃣ Параметры модели
-    params = {"iterations": 1000, "learning_rate": 0.1, "random_state": 42}   
-    for k, v in params.items():
-      mlflow.log_param(k, v)
+      params = {"iterations": 1000, "learning_rate": 0.1, "random_state": 42}   
+      for k, v in params.items():
+        mlflow.log_param(k, v)
 
     clf = CatBoostClassifier(**params, verbose=100)
     
